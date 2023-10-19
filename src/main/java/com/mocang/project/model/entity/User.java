@@ -31,6 +31,16 @@ public class User implements Serializable {
     private String userAccount;
 
     /**
+     * accessKey
+     */
+    private String accessKey;
+
+    /**
+     * secretKey
+     */
+    private String secretKey;
+
+    /**
      * 用户头像
      */
     private String userAvatar;
@@ -68,4 +78,5 @@ public class User implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
 }

@@ -2,18 +2,19 @@ package com.mocang.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
+import com.mocang.moapiclientsdk.client.MoApiClient;
 import com.mocang.project.annotation.AuthCheck;
-import com.mocang.project.common.BaseResponse;
-import com.mocang.project.common.DeleteRequest;
-import com.mocang.project.common.ErrorCode;
-import com.mocang.project.common.ResultUtils;
+import com.mocang.project.common.*;
 import com.mocang.project.constant.CommonConstant;
 import com.mocang.project.exception.BusinessException;
 import com.mocang.project.model.dto.interfaceinfo.InterfaceInfoAddRequest;
+import com.mocang.project.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.mocang.project.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.mocang.project.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.mocang.project.model.entity.InterfaceInfo;
 import com.mocang.project.model.entity.User;
+import com.mocang.project.model.enums.InterfaceInfoStatusEnum;
 import com.mocang.project.service.InterfaceInfoService;
 import com.mocang.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * 帖子接口
+ * 接口信息接口
  *
  * @author mocang
  */
@@ -40,6 +41,10 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private MoApiClient moApiClient;
+
 
     // region 增删改查
 
@@ -127,6 +132,103 @@ public class InterfaceInfoController {
         boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
     }
+
+    /**
+     * 发布接口
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 判断该接口是否可以调用
+        com.mocang.moapiclientsdk.model.User user = new com.mocang.moapiclientsdk.model.User();
+        user.setUsername("test");
+        String username = moApiClient.getUserNameByPost(user);
+        if (StringUtils.isBlank(username)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
+        }
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 下线
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                      HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 测试调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                    HttpServletRequest request) {
+        if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        if (oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue()) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
+        }
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        MoApiClient tempClient = new MoApiClient(accessKey, secretKey);
+        Gson gson = new Gson();
+        com.mocang.moapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.mocang.moapiclientsdk.model.User.class);
+        String usernameByPost = tempClient.getUserNameByPost(user);
+        return ResultUtils.success(usernameByPost);
+    }
+
 
     /**
      * 根据 id 获取
