@@ -4,6 +4,8 @@ package com.mocang.project.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mocang.moapicommon.model.entity.UserInterfaceInfo;
 
+import java.util.List;
+
 
 /**
 * @author mocang
@@ -12,7 +14,7 @@ import com.mocang.moapicommon.model.entity.UserInterfaceInfo;
 * @Entity com.mocang.project.model.enums.UserInterfaceInfo
 */
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
-
+    List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
 }
 
 
