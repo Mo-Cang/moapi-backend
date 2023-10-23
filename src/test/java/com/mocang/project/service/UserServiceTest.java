@@ -1,6 +1,6 @@
 package com.mocang.project.service;
 
-import com.mocang.project.model.entity.User;
+import com.mocang.moapicommon.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

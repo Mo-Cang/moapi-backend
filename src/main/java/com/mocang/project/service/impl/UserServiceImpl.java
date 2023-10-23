@@ -2,10 +2,10 @@ package com.mocang.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mocang.moapicommon.model.entity.User;
 import com.mocang.project.common.ErrorCode;
 import com.mocang.project.exception.BusinessException;
 import com.mocang.project.mapper.UserMapper;
-import com.mocang.project.model.entity.User;
 import com.mocang.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

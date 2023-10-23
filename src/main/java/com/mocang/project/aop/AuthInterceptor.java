@@ -1,10 +1,10 @@
 package com.mocang.project.aop;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.mocang.moapicommon.model.entity.User;
 import com.mocang.project.annotation.AuthCheck;
 import com.mocang.project.common.ErrorCode;
 import com.mocang.project.exception.BusinessException;
-import com.mocang.project.model.entity.User;
 import com.mocang.project.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

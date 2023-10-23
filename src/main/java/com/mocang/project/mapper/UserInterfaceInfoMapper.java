@@ -1,7 +1,9 @@
 package com.mocang.project.mapper;
 
-import com.mocang.project.model.enums.UserInterfaceInfo;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mocang.moapicommon.model.entity.UserInterfaceInfo;
+
 
 /**
 * @author mocang

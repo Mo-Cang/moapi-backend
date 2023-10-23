@@ -2,6 +2,7 @@ package com.mocang.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mocang.moapicommon.model.entity.User;
 import com.mocang.project.annotation.AuthCheck;
 import com.mocang.project.common.BaseResponse;
 import com.mocang.project.common.DeleteRequest;
@@ -13,7 +14,6 @@ import com.mocang.project.model.dto.post.PostAddRequest;
 import com.mocang.project.model.dto.post.PostQueryRequest;
 import com.mocang.project.model.dto.post.PostUpdateRequest;
 import com.mocang.project.model.entity.Post;
-import com.mocang.project.model.entity.User;
 import com.mocang.project.service.PostService;
 import com.mocang.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,8 @@
 package com.mocang.project.mapper;
 
-import com.mocang.project.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mocang.moapicommon.model.entity.InterfaceInfo;
+
 
 /**
 * @author Arrebol

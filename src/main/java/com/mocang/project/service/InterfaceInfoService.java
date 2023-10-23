@@ -1,7 +1,7 @@
 package com.mocang.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mocang.project.model.entity.InterfaceInfo;
+import com.mocang.moapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author Arrebol

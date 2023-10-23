@@ -28,6 +28,11 @@
             <version>0.0.1</version>
         </dependency>
         <dependency>
+            <groupId>org.mocang</groupId>
+            <artifactId>moapi-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>3.0.9</version>

@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mocang.project.common.ErrorCode;
 import com.mocang.project.exception.BusinessException;
 import com.mocang.project.mapper.InterfaceInfoMapper;
-import com.mocang.project.model.entity.InterfaceInfo;
 import com.mocang.project.service.InterfaceInfoService;
+import com.mocang.moapicommon.model.entity.InterfaceInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
 
 /**
 * @author Arrebol

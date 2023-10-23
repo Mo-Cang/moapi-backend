@@ -2,11 +2,11 @@ package com.mocang.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mocang.moapicommon.model.entity.UserInterfaceInfo;
 import com.mocang.project.common.ErrorCode;
 import com.mocang.project.exception.BusinessException;
-import com.mocang.project.model.enums.UserInterfaceInfo;
-import com.mocang.project.service.UserInterfaceInfoService;
 import com.mocang.project.mapper.UserInterfaceInfoMapper;
+import com.mocang.project.service.UserInterfaceInfoService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoMapper, UserInterfaceInfo>
-    implements UserInterfaceInfoService{
+    implements UserInterfaceInfoService {
     @Override
     public void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add) {
         if (userInterfaceInfo == null) {
@@ -46,6 +46,7 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
 //        updateWrapper.gt("leftNum", 0);
         updateWrapper.setSql("leftNum = leftNum - 1, totalNum = totalNum + 1");
         return this.update(updateWrapper);
+
     }
 
 }

@@ -2,7 +2,7 @@ package com.mocang.project.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mocang.project.model.entity.User;
+import com.mocang.moapicommon.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 
